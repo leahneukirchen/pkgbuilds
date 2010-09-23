@@ -1,0 +1,32 @@
+# Contributor: Christian Neukirchen <chneukirchen@gmail.com>
+pkgname=cwm-cvs
+pkgver=20100215
+pkgrel=1
+pkgdesc="OpenBSD fork of calmwm, a clean and lightweight window manager"
+arch=(i686 x86_64)
+url="http://www.openbsd.org/cgi-bin/man.cgi?query=cwm&sektion=1"
+license=('custom')
+depends=(libxft libxrandr libxinerama)
+makedepends=(cvs byacc-noconflict)
+source=(linux.patch fgetln.c strlcat.c strlcpy.c strtonum.c)
+md5sums=('05ce6e76f02dd5af822064a0554a842f'
+         '51a58278f2d76115b9279b51086b3253'
+         '5b7702e150e7543d200b1f27896c1f9b'
+         'b6fb6588f05a551990f3b5b264daaad1'
+         'ba3910375c0647ceac9799dd7fddcb1a')
+
+build() {
+  cd "$srcdir"
+  msg "Connecting to CVS server...."
+  rm -rf xenocara
+  cvs -d :pserver:anoncvs:anoncvs@mirror.planetunix.net:/cvs co xenocara/app/cwm/ || return 1
+  cd xenocara/app/cwm
+  cp -f $srcdir/*.c . || return 1
+  patch -p1 <$srcdir/linux.patch || return 1
+  make || return 1
+
+  install -D -m755 cwm "${pkgdir}/usr/bin/cwm" || return 1
+  install -D -m644 cwm.1 "${pkgdir}/usr/share/man/man1/cwm.1" || return 1
+  install -D -m644 cwmrc.5 "${pkgdir}/usr/share/man/man5/cwmrc.5" || return 1
+  install -D -m644 LICENSE "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
