@@ -1,0 +1,45 @@
+# Contributor: Benjamin Jorand <benjamin.jorand@gmail.com>
+# Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
+pkgname=wily
+pkgver=0.13.42
+pkgrel=2
+arch=('i686' 'x86_64' 'arm')
+pkgdesc="A mouse-oriented, text-based working environment for programmers"
+url="http://www.cs.yorku.ca/~oz/wily/"
+license=('BSD')
+depends=('libxt')
+source=(ftp://ftp.cs.yorku.ca/pub/wily/src/$pkgname-$pkgver.tar.gz)
+md5sums=('0a1908eaa957c87dfe82e506ff314160')
+
+build() {
+  cd ${srcdir}/$pkgname-$pkgver
+  ./configure --prefix=/usr
+
+  sed -i 's:"fixed":"-misc-fixed-medium-r-semicondensed--0-0-75-75-c-0-iso10646-1":' libXg/xtbinit.c
+
+  make
+
+  cd tools/win
+  sed -i 's:/bin/test:test:' configure
+  sh ./configure --prefix=/usr
+
+  sed -i 's:-I..:-I../.. -I../../include:' Makefile  
+  sed -i 's:../libmsg/libmsg.a:../&:' Makefile  
+  sed -i 's:../sam/libXg/libXg.a:../../libXg/libXg.a:' Makefile  
+  sed -i 's:-lsocket ::g' Makefile
+
+  sed -i 's: " in " __FUNCTION__ "()"::' *.c
+
+  make
+}
+
+package() {
+  cd ${srcdir}/$pkgname-$pkgver
+  install -D -m755 wily/wily "${pkgdir}/usr/bin/wily"
+  install -D -m644 README "${pkgdir}/usr/share/licenses/${pkgname}/README"
+
+  cd tools/win
+  install -D -m755 wgoto "${pkgdir}/usr/bin/wgoto"
+  install -D -m755 win "${pkgdir}/usr/bin/win"
+  install -D -m755 wreplace "${pkgdir}/usr/bin/wreplace"
+}
