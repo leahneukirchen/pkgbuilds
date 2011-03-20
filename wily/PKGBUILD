@@ -2,7 +2,7 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=wily
 pkgver=0.13.42
-pkgrel=2
+pkgrel=3
 arch=('i686' 'x86_64' 'arm')
 pkgdesc="A mouse-oriented, text-based working environment for programmers"
 url="http://www.cs.yorku.ca/~oz/wily/"
@@ -31,6 +31,16 @@ build() {
   sed -i 's: " in " __FUNCTION__ "()"::' *.c
 
   make
+  
+  cd ../quanstro
+  
+  sed -i 's:sys/limits.h:limits.h:' *.c
+  sed -i '/rpc_new/s:id):id, 0):' wcat.c
+  sed -i 's:exits:Exits:g' wread.c
+  
+  for f in windows wcat wread wreplace; do
+    gcc -O2 -o $f $f.c  -I../../include -L../../libmsg -I../.. -lmsg
+  done
 }
 
 package() {
@@ -41,5 +51,10 @@ package() {
   cd tools/win
   install -D -m755 wgoto "${pkgdir}/usr/bin/wgoto"
   install -D -m755 win "${pkgdir}/usr/bin/win"
+  
+  cd ../quanstro
+  install -D -m755 wcat "${pkgdir}/usr/bin/wcat"
+  install -D -m755 windows "${pkgdir}/usr/bin/wins"
+  install -D -m755 wread "${pkgdir}/usr/bin/wread"
   install -D -m755 wreplace "${pkgdir}/usr/bin/wreplace"
 }
