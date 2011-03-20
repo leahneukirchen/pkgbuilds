@@ -2,17 +2,19 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=wily
 pkgver=0.13.42
-pkgrel=3
+pkgrel=4
 arch=('i686' 'x86_64' 'arm')
 pkgdesc="A mouse-oriented, text-based working environment for programmers"
 url="http://www.cs.yorku.ca/~oz/wily/"
 license=('BSD')
 depends=('libxt')
-source=(ftp://ftp.cs.yorku.ca/pub/wily/src/$pkgname-$pkgver.tar.gz)
-md5sums=('0a1908eaa957c87dfe82e506ff314160')
+source=(ftp://ftp.cs.yorku.ca/pub/wily/src/$pkgname-$pkgver.tar.gz wily-scrollwheel.patch)
+md5sums=('0a1908eaa957c87dfe82e506ff314160'
+	'b44a48cfb338c2ae72ad5451c59a3ddd')
 
 build() {
   cd ${srcdir}/$pkgname-$pkgver
+  patch -p1 <${srcdir}/wily-scrollwheel.patch
   ./configure --prefix=/usr
 
   sed -i 's:"fixed":"-misc-fixed-medium-r-semicondensed--0-0-75-75-c-0-iso10646-1":' libXg/xtbinit.c
