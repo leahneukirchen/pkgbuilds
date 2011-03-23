@@ -2,7 +2,7 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=wily
 pkgver=0.13.42
-pkgrel=4
+pkgrel=5
 arch=('i686' 'x86_64' 'arm')
 pkgdesc="A mouse-oriented, text-based working environment for programmers"
 url="http://www.cs.yorku.ca/~oz/wily/"
@@ -37,7 +37,8 @@ build() {
   cd ../quanstro
   
   sed -i 's:sys/limits.h:limits.h:' *.c
-  sed -i '/rpc_new/s:id):id, 0):' wcat.c
+  sed -i '/rpc_new/s:filename, &id):filename, \&id, 1):' wcat.c
+  sed -i '/rpc_new/s:winname, &id):winname, \&id, 0):' wcat.c
   sed -i 's:exits:Exits:g' wread.c
   
   for f in windows wcat wread wreplace; do
