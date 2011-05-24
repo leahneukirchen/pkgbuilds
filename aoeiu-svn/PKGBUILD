@@ -1,9 +1,8 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=aoeui-svn
 pkgver=21
-pkgrel=1
-pkgdesc="Lightweight UNIX-friendly text editor optimized for Dvorak
-and QWERTY keyboards"
+pkgrel=2
+pkgdesc="Lightweight UNIX-friendly text editor optimized for Dvorak and QWERTY keyboards"
 arch=(i686 x86_64)
 url="http://sites.google.com/site/aoeuiandasdfg/Home"
 license=('GPL2')
