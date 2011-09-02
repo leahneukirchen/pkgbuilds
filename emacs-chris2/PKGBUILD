@@ -1,51 +1,53 @@
-# $Id: PKGBUILD 79817 2010-05-08 09:09:51Z juergen $
+# $Id$
 # Maintainer: Juergen Hoetzel <juergen@archlinux.org>
 # Contributor: Renchi Raju <renchi@green.tam.uiuc.edu>
 pkgname=emacs-chris2
-pkgver=23.2
-pkgrel=1
+_pkgname=emacs
+_majorver=23.3
+_minorver=a
+# We want something like "23.3.a" so pacman version comparison works, but
+# upstream uses "23.3a", which is a bit silly and interpreted as alpha.
+pkgver=$_majorver.$_minorver
+_realver=$_majorver$_minorver
+pkgrel=2
 pkgdesc="The Emacs Editor, chris2 edition"
-arch=(i686 x86_64)
+arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/emacs/emacs.html"
-license=('GPL')
-options=(docs)
 conflicts=(emacs)
 provides=(emacs)
 depends=('librsvg' 'gpm'  'giflib' 'libtiff'  'libxpm' 'libjpeg' 'libxaw' 'texinfo' 'hicolor-icon-theme')
-source=(ftp://ftp.gnu.org/gnu/emacs/emacs-$pkgver.tar.gz emacs.desktop)
-sha1sums=('2f99c7111c232cf04410607698d2db842e305c82'
-          '50060b676382719955c4e43e28a597ec0bc5805a')
+license=('GPL3')
 install=emacs.install
+source=(ftp://ftp.gnu.org/gnu/emacs/$_pkgname-$_realver.tar.gz emacs.desktop)
+md5sums=('20aef9ea5b5bf8050d39f8b1e96a1c04'
+         '8af038d2ba4561271e935bb444ceb4e3')
 
 build() {
-  cd $startdir/src/emacs-$pkgver
-  mandir=/usr/share/man
+  cd "$srcdir"/$_pkgname-$_majorver
+  ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib \
+    --localstatedir=/var --without-sound --with-x-toolkit=athena --without-xaw3d --without-xft --without-gconf --without-dbus
+  make
+}
 
-  # gcc 4.5 Workaround: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=43904
-  CFLAGS="${CFLAGS} -fno-optimize-sibling-calls"\
-    ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib \
-    --localstatedir=/var --mandir=${mandir} --without-sound -with-x-toolkit=athena --without-xaw3d --without-xft --without-gconf --without-dbus
-  make || return 1
-  make DESTDIR=$startdir/pkg install || return 1
+package() {
+  cd "$srcdir"/$_pkgname-$_majorver
+  make DESTDIR="$pkgdir" install
 
   # remove conflict with ctags package
-  mv $startdir/pkg/usr/bin/{ctags,ctags.emacs} || return 1
-  mv $startdir/pkg/usr/bin/{etags,etags.emacs} || return 1
-  mv $startdir/pkg${mandir}/man1/{etags.1,etags.emacs.1} || return 1
-  mv $startdir/pkg${mandir}/man1/{ctags.1,ctags.emacs.1} || return 1
+  mv "$pkgdir"/usr/bin/{ctags,ctags.emacs}
+  mv "$pkgdir"/usr/share/man/man1/{ctags.1,ctags.emacs.1}
   # fix all the 777 perms on directories
-  find $startdir/pkg/usr/share/emacs/$pkgver -type d -exec chmod 755 {} \;
+  find "$pkgdir"/usr/share/emacs/$_majorver -type d -exec chmod 755 {} \;
   # fix user/root permissions on usr/share files
-  find $startdir/pkg/usr/share/emacs/$pkgver -exec chown root.root {} \;
+  find "$pkgdir"/usr/share/emacs/$_majorver -exec chown root:root {} \;
   # fix perms on /var/games
-  chmod 775 ${startdir}/pkg/var/games
-  chmod 775 ${startdir}/pkg/var/games/emacs
-  chmod 664 ${startdir}/pkg/var/games/emacs/*
-  chown -R root:50 ${startdir}/pkg/var/games
+  chmod 775 "$pkgdir"/var/games
+  chmod 775 "$pkgdir"/var/games/emacs
+  chmod 664 "$pkgdir"/var/games/emacs/*
+  chown -R root:games "$pkgdir"/var/games
 
-
-  # fix  FS#9253 
-  mkdir -p $startdir/pkg/usr/share/pixmaps ${startdir}/pkg/usr/share/applications
-  install -D -m644 ${startdir}/src/emacs.desktop   ${startdir}/pkg/usr/share/applications
-  ln -s  ../emacs/${pkgver}/etc/images/icons/hicolor/48x48/apps/emacs.png $startdir/pkg/usr/share/pixmaps/emacs-icon.png  
+  # fix  FS#9253
+  mkdir -p "$pkgdir"/usr/share/pixmaps "$pkgdir"/usr/share/applications
+  install -D -m644 "$srcdir"/$_pkgname.desktop   "$pkgdir"/usr/share/applications
+  ln -s  ../emacs/$_majorver/etc/images/icons/hicolor/48x48/apps/emacs.png "$pkgdir"/usr/share/pixmaps/emacs-icon.png
 }
