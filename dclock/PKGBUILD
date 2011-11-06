@@ -1,15 +1,14 @@
+# Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 # Contributor: Jeremy Cowgar <jeremy@cowgar.com>
 pkgname=dclock
 pkgver=2.2.2
-pkgrel=2
+pkgrel=3
 pkgdesc="Digital clock for X"
 url="http://opencircuitdesign.com/~tim/programs/"
 license=('GPL')
 depends=('libxft' 'libxt' 'libxext')
 makedepends=('imake')
 source=(http://opencircuitdesign.com/~tim/programs/archive/$pkgname-$pkgver.tgz)
-#source=(http://opencircuitdesign.com/~tim/programs/archive/dclock-2.1.4.tgz)
-#md5sums=('d4502503e8d95803d3f8d51334dfa90d')
 md5sums=('53dd6f204a96f9b9ef6b8919a160c181')
 arch=('i686' 'x86_64')
 
