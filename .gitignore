@@ -1,0 +1,9 @@
+*/*.orig/*
+*/src/*
+*/pkg/*
+*.tar.gz
+*.tgz
+*.tar.Z
+*.tar.xz
+*.tar.bz2
+*.diff.gz
