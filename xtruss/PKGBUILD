@@ -1,7 +1,7 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=xtruss
 pkgver=9490
-pkgrel=1
+pkgrel=2
 epoch=
 pkgdesc="an easy-to-use X protocol tracing program"
 arch=(i686 x86_64)
@@ -9,7 +9,7 @@ url="http://www.chiark.greenend.org.uk/~sgtatham/xtruss/"
 license=('custom:X11')
 depends=(glibc)
 source=(http://www.chiark.greenend.org.uk/~sgtatham/xtruss/$pkgname-r$pkgver.tar.gz)
-md5sums=('5ba284538717e1fad79a96d85e70ff33')
+md5sums=('a8b92d51751e209318fa60447e6099ad')
 
 build() {
   cd "$srcdir/$pkgname-r$pkgver"
