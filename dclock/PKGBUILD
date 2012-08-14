@@ -2,7 +2,7 @@
 # Contributor: Jeremy Cowgar <jeremy@cowgar.com>
 pkgname=dclock
 pkgver=2.2.2
-pkgrel=4
+pkgrel=5
 pkgdesc="Digital clock for X"
 url="http://opencircuitdesign.com/~tim/programs/"
 license=('GPL')
@@ -19,7 +19,7 @@ build() {
 }
 
 package() {
-  cd $srcdir/$pkgname
+  cd $srcdir/$pkgname-$pkgver
   install -D -m 755 dclock $pkgdir/usr/bin/dclock
   install -D -m 644 dclock.1 $pkgdir/usr/share/man/man1/dclock.1
 }
