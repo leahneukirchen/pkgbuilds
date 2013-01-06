@@ -1,7 +1,7 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 # Contributor: JohannesSM64 <johannes.a.langoy@gmail.com>
 pkgname=jupp
-pkgver=3.1jupp23
+pkgver=3.1jupp24
 pkgrel=1
 pkgdesc="An enhanced, portable version of joe, forked in 2004."
 url="https://mirbsd.org/jupp.htm"
@@ -11,8 +11,8 @@ arch=('i686' 'x86_64')
 conflicts=('joe')
 source=("http://www.mirbsd.org/MirOS/dist/jupp/joe-$pkgver.tgz")
 
-md5sums=('96bcaaa4d17c0a99a76d287a0237e1fa')
-sha256sums=('7f8b2e76ebb39544f5bbca2e4f7463f2afb685bc11f16603163acc3e8af0bae1')
+md5sums=('dbb299c31860d43acef21b709e67e9fb')
+sha256sums=('3bd25ad5c9364ce0ff33ec346ec34cbeff990e5d2be35960d68d79910f98cf55')
 
 backup=('etc/joe/jupprc' 
         'etc/joe/joerc' 
