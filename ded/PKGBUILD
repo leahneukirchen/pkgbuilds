@@ -2,7 +2,7 @@
 pkgname=ded
 pkgver=20120113
 _td_pkgver=20120904
-pkgrel=1
+pkgrel=2
 pkgdesc="directory editor, file manager similar to Emacs dired"
 arch=('i686' 'x86_64')
 url="http://invisible-island.net/ded/ded.html"
@@ -19,11 +19,11 @@ sha256sums=('f6625db6dddcedae9e33fb5c7e88dc726dd6c910a09f1b98e6e2136ce91ca5a5'
 build() {
   cd "$srcdir/td_lib-$_td_pkgver"
   ./configure --prefix=/usr
-  make
+  make -j1
 
   cd "$srcdir/$pkgname-$pkgver"
   ./configure --prefix=/usr --mandir=/usr/share/man
-  make
+  make -j1
 }
 
 package() {
