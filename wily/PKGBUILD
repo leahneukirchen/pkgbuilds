@@ -2,7 +2,7 @@
 # Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
 pkgname=wily
 pkgver=0.13.42
-pkgrel=5
+pkgrel=6
 arch=('i686' 'x86_64' 'arm')
 pkgdesc="A mouse-oriented, text-based working environment for programmers"
 url="http://www.cs.yorku.ca/~oz/wily/"
@@ -15,6 +15,7 @@ md5sums=('0a1908eaa957c87dfe82e506ff314160'
 build() {
   cd ${srcdir}/$pkgname-$pkgver
   patch -p1 <${srcdir}/wily-scrollwheel.patch
+  autoreconf
   ./configure --prefix=/usr
 
   sed -i 's:"fixed":"-misc-fixed-medium-r-semicondensed--0-0-75-75-c-0-iso10646-1":' libXg/xtbinit.c
