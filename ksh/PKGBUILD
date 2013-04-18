@@ -1,0 +1,38 @@
+# Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
+# Contributor: Dave Reisner <d@falconindy.com>
+# Contributor: Mark Taylor <skymt0@gmail.com>
+# Contributor: Stefan Husmann <stefan-husmann@t-online.de>
+# Contributor: xduugu
+
+pkgname=ksh
+pkgver=2012.08.01
+_debpkgver=93u+20120801
+pkgrel=2
+pkgdesc="AT&T's Korn shell"
+arch=('i686' 'x86_64')
+url="http://www.kornshell.com/"
+license=('EPL' 'CPL')
+depends=('glibc')
+conflicts=('pdksh')
+# Use Debian-provided sources since original AT&T tarball requires
+# license agreements.
+source=("http://ftp.de.debian.org/debian/pool/main/k/ksh/ksh_$_debpkgver.orig.tar.gz" LICENSE)
+md5sums=('106231c8a47830903eaddd887af506dd'
+         '6e8f7c1d938060017870c4d555d4ddda')
+sha256sums=('052d598df7ed3cbd0fdf458b796262b0b59f4cd3305d970be1cc2287408dbfc9'
+            '13c3ec3f7205d67ce8b45bf40f049ec516ec3bc43812e765ecbde69a6c45f14e')
+
+build() {
+  cd ksh-$_debpkgver
+  bin/package make
+}
+
+package() {
+  cd "$srcdir"/ksh-$_debpkgver/arch
+  # Install manually to avoid nmake dep
+  install -Dm755 linux.*/bin/ksh "$pkgdir/bin/ksh"
+  ln -s ksh "$pkgdir/bin/ksh93"
+  install -Dm755 linux.*/bin/shcomp "$pkgdir/usr/bin/shcomp"
+  install -Dm644 linux.*/man/man1/sh.1 "$pkgdir/usr/share/man/man1/ksh.1"
+  install -Dm644 "$srcdir/LICENSE" "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
