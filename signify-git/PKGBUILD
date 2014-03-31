@@ -1,0 +1,31 @@
+# Maintainer: Christian Neukirchen <chneukirchen@gmail.com>
+pkgname=signify-git
+pkgver=20140331
+pkgrel=1
+pkgdesc="portable version of OpenBSD's signify(1) signature tool"
+arch=('i686' 'x86_64')
+url="http://www.openbsd.org/cgi-bin/man.cgi?query=signify&sektion=1"
+license=('custom')
+depends=('glibc')
+makedepends=('git')
+replaces=('signify')
+conflicts=('signify')
+source=('git://github.com/chneukirchen/signify.git#branch=portable')
+md5sums=('SKIP')
+
+pkgver() {
+  cd "$srcdir/signify"
+  git log -1 --format="%cd" --date=short | sed 's|-||g'
+}
+
+build() {
+  cd "$srcdir/signify"
+  make
+}
+
+package() {
+  cd "$srcdir/signify"
+  install -D -m755 signify "${pkgdir}/usr/bin/signify"
+  install -D -m644 signify.1 "${pkgdir}/usr/share/man/man1/signify.1"
+  install -D -m644 COPYING "${pkgdir}/usr/share/licenses/${pkgname}/LICENSE"
+}
