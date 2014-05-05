@@ -9,7 +9,7 @@
 pkgname=openssh-identitypersist
 _pkgname=openssh
 pkgver=6.6p1
-pkgrel=2
+pkgrel=3
 pkgdesc='Free version of the SSH connectivity tools (with identitypersist patch)'
 url='http://www.openssh.org/portable.html'
 conflicts=('openssh')
