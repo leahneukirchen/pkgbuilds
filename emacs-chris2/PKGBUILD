@@ -5,7 +5,7 @@
 pkgname=emacs-chris2
 _pkgname=emacs
 pkgver=24.3
-pkgrel=3
+pkgrel=4
 pkgdesc="The Emacs Editor, chris2 edition"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/emacs/emacs.html"
@@ -16,9 +16,11 @@ depends=('libxaw' 'hicolor-icon-theme' 'libjpeg-turbo' 'giflib' 'libpng' 'deskto
 install=emacs.install
 source=(ftp://ftp.gnu.org/gnu/emacs/$_pkgname-$pkgver.tar.xz{,.sig} emacs-24.3-giflib5.patch)
 md5sums=('ea9ed000ca165280265aabb55b9afbd7'
-         '3f6990fabfbe1d5f3cd58bace4eb20f1' SKIP)
+         'SKIP'
+         'ccbe4e77440ff6ea56c8532ebc960446')
 sha256sums=('70aa2942e9ae689ed17eddedfca5027c364ffbcc8b59968b1645e935f4c7058d'
-            '6c258b159c921006eee4b1a1aeb1be75a79ad8ed92b36b1b08b262d41a091093' SKIP)
+            'SKIP'
+            'dd35747a6bee9a51e627f23658778ab7ac65e28f3e406655ef62192182db2484')
 
 prepare() {
   cd $_pkgname-$pkgver
