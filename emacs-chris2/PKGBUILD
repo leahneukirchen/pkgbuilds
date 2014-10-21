@@ -4,34 +4,28 @@
 
 pkgname=emacs-chris2
 _pkgname=emacs
-pkgver=24.3
-pkgrel=4
+pkgver=24.4
+pkgrel=1
 pkgdesc="The Emacs Editor, chris2 edition"
 arch=('i686' 'x86_64')
 url="http://www.gnu.org/software/emacs/emacs.html"
 conflicts=(emacs)
 provides=(emacs)
 license=('GPL3')
-depends=('libxaw' 'hicolor-icon-theme' 'libjpeg-turbo' 'giflib' 'libpng' 'desktop-file-utils' 'perl')
+depends=('libxaw' 'hicolor-icon-theme' 'libjpeg-turbo' 'giflib' 'libpng' 'desktop-file-utils' 'perl' 'libxml2')
 install=emacs.install
-source=(ftp://ftp.gnu.org/gnu/emacs/$_pkgname-$pkgver.tar.xz{,.sig} emacs-24.3-giflib5.patch)
-md5sums=('ea9ed000ca165280265aabb55b9afbd7'
-         'SKIP'
-         'ccbe4e77440ff6ea56c8532ebc960446')
-sha256sums=('70aa2942e9ae689ed17eddedfca5027c364ffbcc8b59968b1645e935f4c7058d'
-            'SKIP'
-            'dd35747a6bee9a51e627f23658778ab7ac65e28f3e406655ef62192182db2484')
-
-prepare() {
-  cd $_pkgname-$pkgver
-  patch -Np0 -i ../emacs-24.3-giflib5.patch
-}
+source=(ftp://ftp.gnu.org/gnu/emacs/$_pkgname-$pkgver.tar.xz{,.sig})
+md5sums=('ad487658ad7421ad8d7b5152192eb945'
+         'SKIP')
+sha256sums=('47e391170db4ca0a3c724530c7050655f6d573a711956b4cd84693c194a9d4fd'
+            'SKIP')
 
 build() {
   cd "$srcdir"/$_pkgname-$pkgver
   ac_cv_lib_gif_EGifPutExtensionLast=yes ./configure --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib \
     --localstatedir=/var --without-all --with-x-toolkit=athena \
-    --with-xpm --with-jpeg --with-gif --with-png
+    --with-xpm --with-jpeg --with-gif --with-png --with-xml2 \
+    --with-file-notification=inotify
   make
 }
 
